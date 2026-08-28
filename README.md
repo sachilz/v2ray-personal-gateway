@@ -23,16 +23,16 @@ Personal V2Ray/Xray VLESS server deployment on AWS EC2 with 3X-UI, Cloudflare DN
 
 ```mermaid
 graph TD
-    Client[Client Device\n(V2Box / v2rayN / NetMod)] -->|DNS Lookup| CF_DNS[Cloudflare DNS\n(DNS Only / Gray Cloud)]
+    Client["Client Device<br>(V2Box / v2rayN / NetMod)"] -->|DNS Lookup| CF_DNS["Cloudflare DNS<br>(DNS Only / Gray Cloud)"]
     CF_DNS -.->|Returns AWS IP| Client
-    Client -->|TCP/TLS\nPort 443| AWS_EC2[AWS EC2 Instance\nSingapore ap-southeast-1]
+    Client -->|TCP/TLS<br>Port 443| AWS_EC2["AWS EC2 Instance<br>Singapore ap-southeast-1"]
     
     subgraph AWS Cloud
-        AWS_EC2 --> |Panel Access\nPort 44662| Panel[3X-UI Panel\n(Management Interface)]
-        AWS_EC2 --> |Proxy Traffic\nPort 443 / 52585| Xray[Xray Core\n(VLESS/TLS Handler)]
+        AWS_EC2 --> |"Panel Access<br>Port 44662"| Panel["3X-UI Panel<br>(Management Interface)"]
+        AWS_EC2 --> |"Proxy Traffic<br>Port 443 / 52585"| Xray["Xray Core<br>(VLESS/TLS Handler)"]
     end
     
-    Xray -->|Forwarded Traffic| Internet[Public Internet]
+    Xray -->|Forwarded Traffic| Internet["Public Internet"]
 ```
 
 **Traffic Flow:**
