@@ -24,6 +24,9 @@ When using AWS EC2 `t2`, `t3`, or `t4g` instances (common for personal deploymen
 
 **Conclusion:** Do not assume a fixed bandwidth value (like "AWS gives 1 Gbps") for a `t2.micro`. Performance will fluctuate based on the burst bucket.
 
+> [!TIP]
+> **TCP Congestion Control**: If you are experiencing speeds capped around ~10 Mbps on an AWS instance despite having CPU credits and network headroom, your issue is likely an outdated Xray-core build paired with Linux's default `Cubic` TCP congestion control. You should update Xray-core via the 3X-UI panel and enable Google's `BBR` congestion control (Options 2 and 26 in the `x-ui` menu).
+
 ## Safe Performance Testing
 
 Do not rely on a single speed test. Test throughput to reputable endpoints:

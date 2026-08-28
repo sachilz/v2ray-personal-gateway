@@ -13,6 +13,7 @@ This guide helps diagnose and resolve common issues with the V2Ray/Xray server d
 | `flow` error | Unsupported flow value | Check client logs | Remove the `flow` parameter from config. |
 | DNS fails | DNS record incorrect | `dig YOUR_DOMAIN` | Correct Cloudflare DNS A record. |
 | Slow speed | Network/instance limits | Throughput test | Check AWS burst credits or instance size. |
+| Slow speed (AWS) | Outdated core + Cubic TCP | Direct HTTP download | Update Xray-core in panel & enable BBR. |
 | Panel inaccessible | Firewall blocking panel port | `ss`, `ufw` | Open panel port (44662) for Admin IP. |
 
 ---
@@ -46,3 +47,12 @@ Examine the output for:
 * `subject=CN = YOUR_DOMAIN`
 * `issuer=CN = R3, O = Let's Encrypt`
 * Check the certificate chain and expiration date.
+
+### 5. AWS EC2 t2.micro Speed Capped at ~10 Mbps
+**Cause**: The server is using an outdated Xray-core build paired with Linux's default TCP congestion control (Cubic). Cubic backs off bandwidth conservatively on paths with variable latency (common for ISP-to-AWS routing), and the older core adds processing overhead. This combination throttles throughput even if CPU credits and network baseline caps are fine.
+**Fix**:
+1. Open the 3X-UI management script (`x-ui`).
+2. Update Xray-core to the latest stable release (e.g., Option 2).
+3. Enable Google's BBR TCP congestion control (e.g., Option 26).
+4. Restart Xray and Reboot the VM.
+5. Reconnect and retest; speeds should stabilize at a much higher throughput (e.g., 80-100 Mbps).
