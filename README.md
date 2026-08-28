@@ -6,6 +6,10 @@
 
 Personal V2Ray/Xray VLESS server deployment on AWS EC2 with 3X-UI, Cloudflare DNS, Let's Encrypt TLS, firewall hardening, diagnostics, and client configuration.
 
+> [!NOTE]
+> **Upstream Project Acknowledgement**  
+> This infrastructure deployment utilizes the excellent **[3X-UI](https://github.com/MHSanaei/3x-ui)** panel developed by MHSanaei for Xray management. Please visit their official repository for panel-specific documentation and updates.
+
 ## Features
 * **AWS EC2 Deployment**: Managed cloud infrastructure on Ubuntu Linux.
 * **3X-UI Management**: Web-based administration for users and nodes.
