@@ -1,0 +1,35 @@
+# Environment
+.env
+.env.*
+!.env.example
+
+# SSH
+*.pem
+*.id_rsa
+id_rsa
+id_rsa.pub
+
+# Certificates
+*.key
+*.crt
+*.cer
+*.p12
+*.pfx
+
+# Secrets
+credentials
+credentials.*
+secrets/
+*.secret
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+
+# Logs
+*.log
+logs/

@@ -1,0 +1,43 @@
+name: Validate Configuration
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Validate JSON configurations
+        run: |
+          for file in configs/*.json; do
+            if [ -f "$file" ]; then
+              jq empty "$file" || exit 1
+              echo "✅ $file is valid JSON."
+            fi
+          done
+
+      - name: Check Shell Scripts Syntax
+        run: |
+          for script in scripts/*.sh; do
+            if [ -f "$script" ]; then
+              bash -n "$script" || exit 1
+              echo "✅ $script syntax is valid."
+            fi
+          done
+
+      - name: Check for Accidentally Committed Secrets
+        run: |
+          if git grep -q -iE 'BEGIN (RSA )?PRIVATE KEY|YOUR_UUID|ADMIN_IP'; then
+            echo "⚠️ Warning: Found potentially sensitive placeholder or secret."
+            # Optionally exit 1 to fail the build if real secrets are found,
+            # but we allow placeholders for templates.
+          fi
+          echo "✅ Secret check complete."
